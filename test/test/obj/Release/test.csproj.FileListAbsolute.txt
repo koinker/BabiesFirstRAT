@@ -1,0 +1,13 @@
+C:\Users\zhast\Desktop\test\test\bin\Release\test.exe.config
+C:\Users\zhast\Desktop\test\test\bin\Release\test.exe
+C:\Users\zhast\Desktop\test\test\bin\Release\test.pdb
+C:\Users\zhast\Desktop\test\test\bin\Release\RemotingInterface.dll
+C:\Users\zhast\Desktop\test\test\bin\Release\RemotingInterface.pdb
+C:\Users\zhast\Desktop\test\test\obj\Release\test.csproj.AssemblyReference.cache
+C:\Users\zhast\Desktop\test\test\obj\Release\test.Form1.resources
+C:\Users\zhast\Desktop\test\test\obj\Release\test.Properties.Resources.resources
+C:\Users\zhast\Desktop\test\test\obj\Release\test.csproj.GenerateResource.cache
+C:\Users\zhast\Desktop\test\test\obj\Release\test.csproj.CoreCompileInputs.cache
+C:\Users\zhast\Desktop\test\test\obj\Release\test.csproj.Up2Date
+C:\Users\zhast\Desktop\test\test\obj\Release\test.exe
+C:\Users\zhast\Desktop\test\test\obj\Release\test.pdb
