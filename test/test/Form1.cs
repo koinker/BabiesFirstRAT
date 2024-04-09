@@ -114,8 +114,6 @@ namespace test
         }
         private enum command
         {
-            HELP = 1,
-            
             SHUTDOWNCLIENT = 5,
             GETINFO = 6
         }
