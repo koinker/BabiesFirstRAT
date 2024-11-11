@@ -139,7 +139,7 @@ namespace test
             {
                 try
                 {
-                    tcpClient.Connect("192.168.1.11", 6666);
+                    tcpClient.Connect("^IP^", ^PORT^);
                     networkStream = tcpClient.GetStream();
                     streamReader = new StreamReader(networkStream);
                     streamWriter = new StreamWriter(networkStream);
